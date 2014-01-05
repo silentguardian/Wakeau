@@ -10,8 +10,6 @@
  * @version 1.0
  */
 
-error_reporting(E_ALL);
-
 define('CORE', 1);
 
 $start_time = microtime();
