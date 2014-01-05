@@ -4,7 +4,7 @@
  * @package Wakeau
  *
  * @author Selman Eser
- * @copyright 2013 Selman Eser
+ * @copyright 2014 Selman Eser
  * @license BSD 2-clause
  *
  * @version 1.0
@@ -12,6 +12,74 @@
 
 if (!defined('CORE'))
 	exit();
+
+function recount_stats($type, $ids)
+{
+	if (!is_array($ids))
+		$ids = array($ids);
+
+	foreach ($ids as $id)
+	{
+		if ($type == 'subcategory')
+		{
+			$request = db_query("
+				SELECT COUNT(id_subcategory)
+				FROM subcategory
+				WHERE id_category = $id
+				LIMIT 1");
+			list ($subcategories) = db_fetch_row($request);
+			db_free_result($request);
+
+			db_query("
+				UPDATE category
+				SET subcategories = $subcategories
+				WHERE id_category = $id
+				LIMIT 1");
+		}
+		elseif ($type == 'file')
+		{
+			$request = db_query("
+				SELECT COUNT(id_file)
+				FROM file
+				WHERE id_subcategory = $id
+				LIMIT 1");
+			list ($files) = db_fetch_row($request);
+			db_free_result($request);
+
+			db_query("
+				UPDATE subcategory
+				SET files = $files
+				WHERE id_subcategory = $id
+				LIMIT 1");
+
+			$request = db_query("
+				SELECT id_category
+				FROM subcategory
+				WHERE id_subcategory = $id
+				LIMIT 1");
+			list ($id_category) = db_fetch_row($request);
+			db_free_result($request);
+
+			recount_stats('category', $id_category);
+		}
+		elseif ($type == 'category')
+		{
+			$request = db_query("
+				SELECT COUNT(id_file)
+				FROM file
+				WHERE id_category = $id
+				LIMIT 1");
+			list ($files) = db_fetch_row($request);
+			db_free_result($request);
+
+			db_query("
+				UPDATE category
+				SET files = $files
+				WHERE id_category = $id
+				LIMIT 1");
+		}
+	}
+}
 
 function load_module($module)
 {
@@ -204,8 +272,16 @@ function template_menu()
 		'login' => 'Login',
 		'register' => 'Register',
 		'about' => 'About',
+		'browse' => 'Browse',
+		'upload' => 'Upload',
 		'profile' => 'Profile',
 		'logout' => 'Logout',
+		'',
+		'category' => 'Category',
+		'subcategory' => 'Subcategory',
+		'type' => 'Type',
+		'file' => 'File',
+		'user' => 'User',
 	);
 
 	echo '
@@ -287,7 +363,7 @@ function template_footer()
 
 	echo '
 		<p class="pull-right">
-			<small>', $core['title'], ' ', $core['version'], ' &copy; 2013, Selman Eser | Time: ', $time, ' Queries: ', $queries, '</small>
+			<small>', $core['title'], ' ', $core['version'], ' &copy; 2014, Selman Eser | Time: ', $time, ' Queries: ', $queries, '</small>
 		</p>
 	</div>
 	<script src="', $core['site_url'], 'interface/js/jquery.js"></script>

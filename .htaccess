@@ -1,4 +1,6 @@
 RewriteEngine on
+RewriteRule ^upload/([0-9]+)/?$ ?module=upload&category=$1
+RewriteRule ^upload/([0-9]+)/([0-9]+)/?$ ?module=upload&category=$1&subcategory=$2
 RewriteRule ^([a-z]+)/?$ ?module=$1
 RewriteRule ^([a-z]+)/([a-z]+)/?$ ?module=$1&action=$2
 RewriteRule ^([a-z]+)/([a-z]+)/([0-9]+)/?$ ?module=$1&action=$2&$1=$3

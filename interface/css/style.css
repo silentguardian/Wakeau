@@ -16,6 +16,10 @@ td.align_center, th.align_center, .align_center
 {
 	vertical-align: middle;
 }
+.table th
+{
+	text-align: center;
+}
 .padding
 {
 	padding: 1em 0;
