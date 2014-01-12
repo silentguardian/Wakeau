@@ -53,6 +53,7 @@ function template_user_list()
 					<td class="span2 align_center">', $user['registered'], '</td>
 					<td class="align_center">', $user['admin'], '</td>
 					<td class="span3 align_center">
+						<a class="btn btn-info" href="', build_url(array('browse', 'user', $user['id'])), '">Browse</a>
 						<a class="btn btn-primary" href="', build_url(array('user', 'edit', $user['id'])), '">Edit</a>
 						<a class="btn btn-danger" href="', build_url(array('user', 'delete', $user['id'])), '" onclick="return confirm(\'Are you sure that you want to delete this item?\');">Delete</a>
 					</td>

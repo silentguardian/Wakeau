@@ -164,6 +164,114 @@ function template_browse_file()
 		</table>';
 }
 
+function template_browse_type()
+{
+	global $template;
+
+	echo '
+		<div class="page-header">
+			<h2>Browse Files - ', $template['type']['name'], '</h2>
+		</div>
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Category</th>
+					<th>Subcategory</th>
+					<th>User</th>
+					<th>Downloads</th>
+					<th>Comments</th>
+					<th>Time</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>';
+
+	if (empty($template['files']))
+	{
+		echo '
+				<tr>
+					<td class="align_center" colspan="8">There are not any files added yet!</td>
+				</tr>';
+	}
+
+	foreach ($template['files'] as $file)
+	{
+		echo '
+				<tr>
+					<td>', $file['name'], '</td>
+					<td>', $file['category'], '</td>
+					<td>', $file['subcategory'], '</td>
+					<td>', $file['user'], '</td>
+					<td class="span1 align_center">', $file['downloads'], '</td>
+					<td class="span1 align_center">', $file['comments'], '</td>
+					<td class="span2 align_center">', $file['time'], '</td>
+					<td class="span3 align_center">
+						<a class="btn btn-info" href="', build_url(array('browse', 'view', $file['id'])), '">View</a>
+						<a class="btn btn-success" href="', build_url(array('browse', 'download', $file['id'])), '">Download</a>
+					</td>
+				</tr>';
+	}
+
+	echo '
+			</tbody>
+		</table>';
+}
+
+function template_browse_user()
+{
+	global $template;
+
+	echo '
+		<div class="page-header">
+			<h2>Browse Files - ', $template['user']['username'], '</h2>
+		</div>
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Category</th>
+					<th>Subcategory</th>
+					<th>Type</th>
+					<th>Downloads</th>
+					<th>Comments</th>
+					<th>Time</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>';
+
+	if (empty($template['files']))
+	{
+		echo '
+				<tr>
+					<td class="align_center" colspan="8">There are not any files added yet!</td>
+				</tr>';
+	}
+
+	foreach ($template['files'] as $file)
+	{
+		echo '
+				<tr>
+					<td>', $file['name'], '</td>
+					<td>', $file['category'], '</td>
+					<td>', $file['subcategory'], '</td>
+					<td>', $file['type'], '</td>
+					<td class="span1 align_center">', $file['downloads'], '</td>
+					<td class="span1 align_center">', $file['comments'], '</td>
+					<td class="span2 align_center">', $file['time'], '</td>
+					<td class="span3 align_center">
+						<a class="btn btn-info" href="', build_url(array('browse', 'view', $file['id'])), '">View</a>
+						<a class="btn btn-success" href="', build_url(array('browse', 'download', $file['id'])), '">Download</a>
+					</td>
+				</tr>';
+	}
+
+	echo '
+			</tbody>
+		</table>';
+}
+
 function template_browse_view()
 {
 	global $template;

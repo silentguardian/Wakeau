@@ -17,7 +17,7 @@ function browse_main()
 {
 	global $core;
 
-	$actions = array('category', 'subcategory', 'file', 'view', 'comment', 'download', 'edit', 'delete');
+	$actions = array('category', 'subcategory', 'file', 'type', 'user', 'view', 'comment', 'download', 'edit', 'delete');
 
 	$core['current_action'] = 'category';
 	if (!empty($_REQUEST['action']) && in_array($_REQUEST['action'], $actions))
@@ -151,6 +151,112 @@ function browse_file()
 
 	$template['page_title'] = 'Browse Files - ' . $template['category']['name'] . ' - ' . $template['subcategory']['name'];
 	$core['current_template'] = 'browse_file';
+}
+
+function browse_type()
+{
+	global $core, $template;
+
+	$id_type = !empty($_REQUEST['browse']) ? (int) $_REQUEST['browse'] : 0;
+
+	$request = db_query("
+		SELECT id_type, name
+		FROM type
+		WHERE id_type = $id_type
+		LIMIT 1");
+	while ($row = db_fetch_assoc($request))
+	{
+		$template['type'] = array(
+			'id' => $row['id_type'],
+			'name' => $row['name'],
+		);
+	}
+	db_free_result($request);
+
+	if (!isset($template['type']))
+		fatal_error('The type requested does not exist!');
+
+	$request = db_query("
+		SELECT
+			f.id_file, f.name, f.time, f.downloads, f.comments,
+			c.name AS category, s.name AS subcategory, u.username
+		FROM file AS f
+			LEFT JOIN category AS c ON (c.id_category = f.id_category)
+			LEFT JOIN subcategory AS s ON (s.id_subcategory = f.id_subcategory)
+			LEFT JOIN user AS u ON (u.id_user = f.id_user)
+		WHERE f.id_type = $id_type
+		ORDER BY f.id_file DESC");
+	$template['files'] = array();
+	while ($row = db_fetch_assoc($request))
+	{
+		$template['files'][] = array(
+			'id' => $row['id_file'],
+			'name' => $row['name'],
+			'category' => $row['category'],
+			'subcategory' => $row['subcategory'],
+			'user' => $row['username'],
+			'downloads' => $row['downloads'],
+			'comments' => $row['comments'],
+			'time' => strftime('%d/%m/%Y, %H:%M', $row['time']),
+		);
+	}
+	db_free_result($request);
+
+	$template['page_title'] = 'Browse Files - ' . $template['type']['name'];
+	$core['current_template'] = 'browse_type';
+}
+
+function browse_user()
+{
+	global $core, $template;
+
+	$id_user = !empty($_REQUEST['browse']) ? (int) $_REQUEST['browse'] : 0;
+
+	$request = db_query("
+		SELECT id_user, username
+		FROM user
+		WHERE id_user = $id_user
+		LIMIT 1");
+	while ($row = db_fetch_assoc($request))
+	{
+		$template['user'] = array(
+			'id' => $row['id_user'],
+			'username' => $row['username'],
+		);
+	}
+	db_free_result($request);
+
+	if (!isset($template['user']))
+		fatal_error('The user requested does not exist!');
+
+	$request = db_query("
+		SELECT
+			f.id_file, f.name, f.time, f.downloads, f.comments,
+			c.name AS category, s.name AS subcategory, t.name AS type
+		FROM file AS f
+			LEFT JOIN category AS c ON (c.id_category = f.id_category)
+			LEFT JOIN subcategory AS s ON (s.id_subcategory = f.id_subcategory)
+			LEFT JOIN type AS t ON (t.id_type = f.id_type)
+		WHERE f.id_user = $id_user
+		ORDER BY f.id_file DESC");
+	$template['files'] = array();
+	while ($row = db_fetch_assoc($request))
+	{
+		$template['files'][] = array(
+			'id' => $row['id_file'],
+			'name' => $row['name'],
+			'category' => $row['category'],
+			'subcategory' => $row['subcategory'],
+			'type' => $row['type'],
+			'downloads' => $row['downloads'],
+			'comments' => $row['comments'],
+			'time' => strftime('%d/%m/%Y, %H:%M', $row['time']),
+		);
+	}
+	db_free_result($request);
+
+	$template['page_title'] = 'Browse Files - ' . $template['user']['username'];
+	$core['current_template'] = 'browse_user';
 }
 
 function browse_view()
