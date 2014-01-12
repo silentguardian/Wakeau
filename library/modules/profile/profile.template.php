@@ -45,6 +45,12 @@ function template_profile_main()
 						<input type="password" class="input-xlarge" id="current_password" name="current_password" />
 					</div>
 				</div>
+				<div class="control-group">
+					<label class="control-label" for="login_count">Login count:</label>
+					<div class="controls">
+						<span class="input-xlarge uneditable-input" id="login_count">', $template['login_count'], '</span>
+					</div>
+				</div>
 				<div class="form-actions">
 					<input type="submit" class="btn btn-primary" name="save" value="Save changes" />
 				</div>

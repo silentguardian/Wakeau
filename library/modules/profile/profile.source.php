@@ -18,11 +18,11 @@ function profile_main()
 	global $core, $template, $user;
 
 	$request = db_query("
-		SELECT email_address
+		SELECT email_address, login_count
 		FROM user
 		WHERE id_user = $user[id]
 		LIMIT 1");
-	list ($template['email_address']) = db_fetch_row($request);
+	list ($template['email_address'], $template['login_count']) = db_fetch_row($request);
 	db_free_result($request);
 
 	if (!empty($_POST['save']))

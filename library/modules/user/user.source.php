@@ -165,8 +165,8 @@ function user_edit()
 	{
 		$request = db_query("
 			SELECT
-				id_user, username,
-				email_address, admin
+				id_user, username, email_address,
+				admin, login_count
 			FROM user
 			WHERE id_user = $id_user
 			LIMIT 1");
@@ -178,6 +178,7 @@ function user_edit()
 				'username' => $row['username'],
 				'email_address' => $row['email_address'],
 				'admin' => $row['admin'],
+				'login_count' => $row['login_count'],
 			);
 		}
 		db_free_result($request);

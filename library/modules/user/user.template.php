@@ -105,7 +105,20 @@ function template_user_edit()
 							<option value="1"', ($template['user']['admin'] == 1 ? ' selected="selected"' : ''), '>Yes</option>
 						</select>
 					</div>
-				</div>
+				</div>';
+
+	if (!$template['user']['is_new'])
+	{
+		echo '
+				<div class="control-group">
+					<label class="control-label" for="login_count">Login count:</label>
+					<div class="controls">
+						<span class="input-xlarge uneditable-input" id="login_count">', $template['user']['login_count'], '</span>
+					</div>
+				</div>';
+	}
+
+	echo '
 				<div class="form-actions">
 					<input type="submit" class="btn btn-primary" name="save" value="Save changes" />
 					<input type="submit" class="btn" name="cancel" value="Cancel" />

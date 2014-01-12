@@ -37,6 +37,12 @@ function login_main()
 		if ($hash !== $real_password)
 			fatal_error('Invalid username or password!');
 
+		db_query("
+			UPDATE user
+			SET login_count = login_count + 1
+			WHERE id_user = $id
+			LIMIT 1");
+
 		create_cookie(60 * 3153600, $id, $hash);
 
 		redirect(build_url());
