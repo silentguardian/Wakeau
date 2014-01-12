@@ -170,7 +170,7 @@ function create_cookie($length, $user, $pass = '')
 	$data = serialize(empty($user) ? array(0, '', 0) : array($user, $pass, time() + $length));
 	$url = parse_url($core['site_url']);
 
-	setcookie($core['cookie'], $data, time() + $length, $url['path'], '', 0);
+	setcookie($core['cookie'], $data, 0, $url['path'], '', 0);
 
 	$_COOKIE[$core['cookie']] = $data;
 
@@ -184,7 +184,7 @@ function create_cookie($length, $user, $pass = '')
 		session_regenerate_id();
 		$_SESSION = $old_session;
 
-		setcookie(session_name(), session_id(), time() + $length, $url['path'], '', 0);
+		setcookie(session_name(), session_id(), 0, $url['path'], '', 0);
 
 		$_SESSION['login_' . $core['cookie']] = $data;
 	}
