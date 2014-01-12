@@ -59,7 +59,7 @@ function template_file_list()
 					<td class="span3 align_center">
 						<a class="btn btn-info" href="', build_url(array('browse', 'view', $file['id'])), '">View</a>
 						<a class="btn btn-primary" href="', build_url(array('file', 'edit', $file['id'])), '">Edit</a>
-						<a class="btn btn-danger" href="', build_url(array('file', 'delete', $file['id'])), '">Delete</a>
+						<a class="btn btn-danger" href="', build_url(array('file', 'delete', $file['id'])), '" onclick="return confirm(\'Are you sure that you want to delete this item?\');">Delete</a>
 					</td>
 				</tr>';
 	}

@@ -48,7 +48,7 @@ function template_type_list()
 					<td>', $type['name'], '</td>
 					<td class="span3 align_center">
 						<a class="btn btn-primary" href="', build_url(array('type', 'edit', $type['id'])), '">Edit</a>
-						<a class="btn btn-danger" href="', build_url(array('type', 'delete', $type['id'])), '">Delete</a>
+						<a class="btn btn-danger" href="', build_url(array('type', 'delete', $type['id'])), '" onclick="return confirm(\'Are you sure that you want to delete this item?\');">Delete</a>
 					</td>
 				</tr>';
 	}

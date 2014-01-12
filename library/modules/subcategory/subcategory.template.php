@@ -53,7 +53,7 @@ function template_subcategory_list()
 					<td class="span3 align_center">
 						<a class="btn btn-info" href="', build_url(array('browse', 'file', $subcategory['id'])), '">Browse</a>
 						<a class="btn btn-primary" href="', build_url(array('subcategory', 'edit', $subcategory['id'])), '">Edit</a>
-						<a class="btn btn-danger" href="', build_url(array('subcategory', 'delete', $subcategory['id'])), '">Delete</a>
+						<a class="btn btn-danger" href="', build_url(array('subcategory', 'delete', $subcategory['id'])), '" onclick="return confirm(\'Are you sure that you want to delete this item?\');">Delete</a>
 					</td>
 				</tr>';
 	}

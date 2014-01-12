@@ -178,7 +178,7 @@ function template_browse_view()
 	{
 		echo '
 				<a class="btn btn-primary" href="', build_url(array('browse', 'edit', $template['file']['id'])), '">Edit</a>
-				<a class="btn btn-danger" href="', build_url(array('browse', 'delete', $template['file']['id'])), '">Delete</a>';
+				<a class="btn btn-danger" href="', build_url(array('browse', 'delete', $template['file']['id'])), '" onclick="return confirm(\'Are you sure that you want to delete this item?\');">Delete</a>';
 	}
 
 	echo '
@@ -230,7 +230,7 @@ function template_browse_view()
 		{
 			echo '
 			<div class="pull-right">
-				<a class="btn btn-danger" href="', build_url(array('browse', 'comment', $template['file']['id'], $comment['id'])), '">Delete</a>
+				<a class="btn btn-danger" href="', build_url(array('browse', 'comment', $template['file']['id'], $comment['id'])), '" onclick="return confirm(\'Are you sure that you want to delete this item?\');">Delete</a>
 			</div>';
 		}
 
