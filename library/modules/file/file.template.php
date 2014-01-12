@@ -141,7 +141,7 @@ function template_file_edit()
 				<div class="control-group">
 					<label class="control-label" for="current">Current file:</label>
 					<div class="controls">
-						<span id="name">', $template['file']['store']['name'], '</span>
+						<span class="input-xlarge uneditable-input" id="current">', $template['file']['store']['name'], '</span>
 					</div>
 				</div>';
 	}
