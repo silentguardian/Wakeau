@@ -400,9 +400,9 @@ function ob_exit()
 	global $core, $template;
 
 	if (empty($template['page_title']))
-		$template['page_title'] = $core['title'];
+		$template['page_title'] = $core['title_long'];
 	else
-		$template['page_title'] .= ' - ' . $core['title'];
+		$template['page_title'] .= ' - ' . $core['title_long'];
 
 	template_header();
 
