@@ -500,22 +500,41 @@ function browse_edit()
 
 function browse_delete()
 {
-	global $user;
+	global $core, $user;
 
 	$id_file = !empty($_REQUEST['browse']) ? (int) $_REQUEST['browse'] : 0;
 
 	$request = db_query("
-		SELECT id_file, id_user, id_subcategory
+		SELECT id_file, id_user, id_subcategory, id_store
 		FROM file
 		WHERE id_file = $id_file
 		LIMIT 1");
-	list ($id_file, $id_user, $id_subcategory) = db_fetch_row($request);
+	list ($id_file, $id_user, $id_subcategory, $id_store) = db_fetch_row($request);
 	db_free_result($request);
 
 	if (empty($id_file))
 		fatal_error('The file requested does not exist!');
 	elseif (!$user['admin'] && $user['id'] != $id_user)
 		fatal_error('You are not allowed to carry out this action!');
+
+	$request = db_query("
+		SELECT alias
+		FROM store
+		WHERE id_store = $id_store
+		LIMIT 1");
+	list ($alias) = db_fetch_row($request);
+	db_free_result($request);
+
+	db_query("
+		DELETE FROM store
+		WHERE id_store = $id_store
+		LIMIT 1");
+
+	@unlink($core['storage_dir'] . '/' . $alias . '.w');
+
+	db_query("
+		DELETE FROM comment
+		WHERE id_file = $id_file");
 
 	db_query("
 		DELETE FROM file

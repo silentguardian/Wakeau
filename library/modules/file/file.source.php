@@ -259,18 +259,39 @@ function file_edit()
 
 function file_delete()
 {
+	global $core;
+
 	$id_file = !empty($_REQUEST['file']) ? (int) $_REQUEST['file'] : 0;
 
 	$request = db_query("
-		SELECT id_file, id_subcategory
+		SELECT id_file, id_subcategory, id_store
 		FROM file
 		WHERE id_file = $id_file
 		LIMIT 1");
-	list ($id_file, $id_subcategory) = db_fetch_row($request);
+	list ($id_file, $id_subcategory, $id_store) = db_fetch_row($request);
 	db_free_result($request);
 
 	if (!empty($id_file))
 	{
+		$request = db_query("
+			SELECT alias
+			FROM store
+			WHERE id_store = $id_store
+			LIMIT 1");
+		list ($alias) = db_fetch_row($request);
+		db_free_result($request);
+
+		db_query("
+			DELETE FROM store
+			WHERE id_store = $id_store
+			LIMIT 1");
+
+		@unlink($core['storage_dir'] . '/' . $alias . '.w');
+
+		db_query("
+			DELETE FROM comment
+			WHERE id_file = $id_file");
+
 		db_query("
 			DELETE FROM file
 			WHERE id_file = $id_file
