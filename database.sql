@@ -142,6 +142,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `registered` int(10) NOT NULL DEFAULT '0',
   `admin` tinyint(4) NOT NULL DEFAULT '0',
   `login_count` mediumint(8) NOT NULL DEFAULT '0',
+  `last_password_change` int(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_user`),
   KEY `registered` (`registered`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

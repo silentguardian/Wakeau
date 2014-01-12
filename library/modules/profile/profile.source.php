@@ -18,11 +18,20 @@ function profile_main()
 	global $core, $template, $user;
 
 	$request = db_query("
-		SELECT email_address, login_count
+		SELECT
+			email_address, login_count,
+			last_password_change
 		FROM user
 		WHERE id_user = $user[id]
 		LIMIT 1");
-	list ($template['email_address'], $template['login_count']) = db_fetch_row($request);
+	while ($row = db_fetch_assoc($request))
+	{
+		$template['profile'] = array(
+			'email_address' => $row['email_address'],
+			'login_count' => $row['login_count'],
+			'last_password_change' => empty($row['last_password_change']) ? 'Never' : strftime('%d %B %Y, %H:%M', $row['last_password_change']),
+		);
+	}
 	db_free_result($request);
 
 	if (!empty($_POST['save']))
@@ -78,7 +87,10 @@ function profile_main()
 		if ($values['email_address'] !== $template['email_address'])
 			$changes[] = "email_address = '$values[email_address]'";
 		if ($values['choose_password'] !== '')
+		{
 			$changes[] = "password = '$values[verify_password]'";
+			$changes[] = "last_password_change = " . time();
+		}
 
 		if (!empty($changes))
 		{

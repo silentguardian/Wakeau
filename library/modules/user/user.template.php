@@ -115,6 +115,12 @@ function template_user_edit()
 					<div class="controls">
 						<span class="input-xlarge uneditable-input" id="login_count">', $template['user']['login_count'], '</span>
 					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="last_password_change">Last password change:</label>
+					<div class="controls">
+						<span class="input-xlarge uneditable-input" id="last_password_change">', $template['user']['last_password_change'], '</span>
+					</div>
 				</div>';
 	}
 

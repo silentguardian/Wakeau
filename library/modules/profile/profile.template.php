@@ -24,7 +24,7 @@ function template_profile_main()
 				<div class="control-group">
 					<label class="control-label" for="email_address">Email address:</label>
 					<div class="controls">
-						<input type="text" class="input-xlarge" id="email_address" name="email_address" value="', $template['email_address'], '" />
+						<input type="text" class="input-xlarge" id="email_address" name="email_address" value="', $template['profile']['email_address'], '" />
 					</div>
 				</div>
 				<div class="control-group">
@@ -48,7 +48,13 @@ function template_profile_main()
 				<div class="control-group">
 					<label class="control-label" for="login_count">Login count:</label>
 					<div class="controls">
-						<span class="input-xlarge uneditable-input" id="login_count">', $template['login_count'], '</span>
+						<span class="input-xlarge uneditable-input" id="login_count">', $template['profile']['login_count'], '</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="last_password_change">Last password change:</label>
+					<div class="controls">
+						<span class="input-xlarge uneditable-input" id="last_password_change">', $template['profile']['last_password_change'], '</span>
 					</div>
 				</div>
 				<div class="form-actions">
