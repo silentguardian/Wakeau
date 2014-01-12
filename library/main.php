@@ -26,6 +26,7 @@ clean_request();
 db_initiate();
 start_session();
 load_user();
+load_template();
 
 $modules = array('home', 'about');
 if ($user['logged'])
@@ -33,7 +34,7 @@ if ($user['logged'])
 else
 	$modules = array_merge($modules, array('login', 'register'));
 if ($user['admin'])
-	$modules = array_merge($modules, array('category', 'subcategory', 'type', 'file', 'user'));
+	$modules = array_merge($modules, array('category', 'subcategory', 'type', 'file', 'user', 'announcement'));
 
 $core['current_module'] = 'home';
 if (!empty($_REQUEST['module']) && in_array($_REQUEST['module'], $modules))

@@ -89,6 +89,37 @@ function load_module($module)
 	require_once $core['modules_dir'] . '/' . $module . '/' . $module . '.template.php';
 }
 
+function load_template()
+{
+	global $user, $template;
+
+	if (!$user['logged'])
+		return;
+
+	$types = array(
+		0 => 'alert-info',
+		1 => 'alert-success',
+		2 => '',
+		3 => 'alert-error',
+	);
+
+	$request = db_query("
+		SELECT title, body, type
+		FROM announcement
+		WHERE state = 1
+		ORDER BY position");
+	$template['active_announcements'] = array();
+	while ($row = db_fetch_assoc($request))
+	{
+		$template['active_announcements'][] = array(
+			'title' => $row['title'],
+			'body' => $row['body'],
+			'type' => $types[$row['type']],
+		);
+	}
+	db_free_result($request);
+}
+
 function load_user()
 {
 	global $core, $user;
@@ -352,6 +383,18 @@ function template_header()
 
 	echo '
 	<div class="container">';
+
+	if (!empty($template['active_announcements']))
+	{
+		foreach ($template['active_announcements'] as $announcement)
+		{
+			echo '
+		<div class="alert ', $announcement['type'], '">
+			<h4 class="alert-heading">', $announcement['title'], '</h4>
+			', $announcement['body'], '
+		</div>';
+		}
+	}
 }
 
 function template_footer()

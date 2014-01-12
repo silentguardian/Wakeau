@@ -22,6 +22,22 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `announcement`
+--
+
+CREATE TABLE IF NOT EXISTS `announcement` (
+  `id_announcement` mediumint(8) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `body` text COLLATE utf8_unicode_ci NOT NULL,
+  `type` tinyint(4) NOT NULL DEFAULT '0',
+  `position` tinyint(4) NOT NULL DEFAULT '0',
+  `state` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id_announcement`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `category`
 --
 
