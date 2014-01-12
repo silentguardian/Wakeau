@@ -293,7 +293,7 @@ function template_menu()
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="', build_url(), '">', $core['title'], '</a>
+				<a class="brand" href="', build_url(), '">', $core['title_short'], '</a>
 				<div class="nav-collapse">
 					<ul class="nav">';
 
@@ -363,7 +363,7 @@ function template_footer()
 
 	echo '
 		<p class="pull-right">
-			<small>', $core['title'], ' ', $core['version'], ' &copy; 2014, Selman Eser | Time: ', $time, ' Queries: ', $queries, '</small>
+			<small>Wakeau ', $core['version'], ' &copy; 2014, Selman Eser | Time: ', $time, ' Queries: ', $queries, '</small>
 		</p>
 	</div>
 	<script src="', $core['site_url'], 'interface/js/jquery.js"></script>

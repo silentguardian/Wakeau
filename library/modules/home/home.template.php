@@ -15,14 +15,14 @@ if (!defined('CORE'))
 
 function template_home_main()
 {
-	global $template;
+	global $core, $template;
 
 	echo '
 		<div class="page-header">
 			<div class="pull-right">
 				', $template['total_users'], ' users &bull; ', $template['total_files'], ' files &bull; ', $template['total_downloads'], ' downloads &bull; ', $template['total_comments'], ' comments
 			</div>
-			<h2>Wakeau</h2>
+			<h2>', $core['title_long'], '</h2>
 		</div>
 		<div class="pull-left half">
 			<div class="page-header">

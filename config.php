@@ -12,7 +12,8 @@
 
 $core = array();
 
-$core['title'] = 'Wakeau';
+$core['title_short'] = 'Wakeau';
+$core['title_long'] = 'Wakeau';
 $core['version'] = '1.0';
 $core['cookie'] = 'wakeau2011';
 $core['clean_url'] = false;
