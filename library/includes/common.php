@@ -313,6 +313,7 @@ function template_menu()
 		'type' => 'Type',
 		'file' => 'File',
 		'user' => 'User',
+		'announcement' => 'Announcement',
 	);
 
 	echo '
@@ -349,7 +350,7 @@ function template_menu()
 	{
 		echo '
 					<p class="navbar-text pull-right">
-						Logged in as <b>', $user['username'], '</b>
+						Logged in as <strong>', $user['username'], '</strong>
 					</p>';
 	}
 
@@ -405,8 +406,10 @@ function template_footer()
 	$queries = !empty($db['debug']) ? count($db['debug']) : 0;
 
 	echo '
-		<p class="pull-right">
-			<small>Wakeau ', $core['version'], ' &copy; 2014, Selman Eser | Time: ', $time, ' Queries: ', $queries, '</small>
+		<hr />
+		<p>
+			<small class="pull-left">Wakeau ', $core['version'], ' &copy; 2014, Selman Eser</small>
+			<small class="pull-right"><span class="label">', $time, '</span> seconds <span class="label">', $queries, '</span> queries</small>
 		</p>
 	</div>
 	<script src="', $core['site_url'], 'interface/js/jquery.js"></script>

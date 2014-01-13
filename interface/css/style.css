@@ -1,10 +1,10 @@
 body
 {
-	background: url(../img/background.png) no-repeat;
+	background: url(../img/background.png) repeat-x;
 	padding-top: 180px;
 	padding-bottom: 10px;
 }
-td.align_center, th.align_center, .align_center
+td.align_center, .align_center
 {
 	text-align: center;
 }
@@ -46,4 +46,12 @@ td.align_center, th.align_center, .align_center
 	font-size: 1.1em;
 	line-height: 1.4em;
 	margin-top: 1em;
+}
+span.label
+{
+	font-weight: normal;
+}
+hr
+{
+	margin-bottom: 0.5em;
 }
