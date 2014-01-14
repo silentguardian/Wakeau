@@ -144,7 +144,7 @@ function browse_file()
 			'user' => $row['username'],
 			'downloads' => $row['downloads'],
 			'comments' => $row['comments'],
-			'time' => strftime('%d/%m/%Y, %H:%M', $row['time']),
+			'time' => format_time($row['time']),
 		);
 	}
 	db_free_result($request);
@@ -197,7 +197,7 @@ function browse_type()
 			'user' => $row['username'],
 			'downloads' => $row['downloads'],
 			'comments' => $row['comments'],
-			'time' => strftime('%d/%m/%Y, %H:%M', $row['time']),
+			'time' => format_time($row['time']),
 		);
 	}
 	db_free_result($request);
@@ -250,7 +250,7 @@ function browse_user()
 			'type' => $row['type'],
 			'downloads' => $row['downloads'],
 			'comments' => $row['comments'],
-			'time' => strftime('%d/%m/%Y, %H:%M', $row['time']),
+			'time' => format_time($row['time']),
 		);
 	}
 	db_free_result($request);
@@ -296,7 +296,7 @@ function browse_view()
 			),
 			'downloads' => $row['downloads'],
 			'comments' => $row['comments'],
-			'time' => strftime('%d %B %Y, %H:%M', $row['time']),
+			'time' => format_time($row['time'], 'long'),
 			'store' => array(
 				'name' => $row['store_name'],
 				'size' => round($row['size'] / 1024, 2) . ' KB',
@@ -321,7 +321,7 @@ function browse_view()
 			'id' => $row['id_comment'],
 			'username' => $row['username'],
 			'body' => $row['body'],
-			'time' => strftime('%d %B %Y, %H:%M', $row['time']),
+			'time' => format_time($row['time'], 'long'),
 			'can_delete' => $user['admin'] || ($user['id'] == $row['id_user']),
 		);
 	}

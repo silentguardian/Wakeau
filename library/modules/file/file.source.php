@@ -50,7 +50,7 @@ function file_list()
 			'subcategory' => $row['subcategory'],
 			'type' => $row['type'],
 			'user' => $row['username'],
-			'time' => strftime('%d/%m/%Y, %H:%M', $row['time']),
+			'time' => format_time($row['time']),
 		);
 	}
 	db_free_result($request);

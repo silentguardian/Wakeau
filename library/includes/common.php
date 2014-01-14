@@ -279,6 +279,24 @@ function clean_request()
 	$_REQUEST = $_POST + $_GET;
 }
 
+function format_time($stamp, $format = 'short')
+{
+	global $core;
+	static $formats;
+
+	if (!isset($formats))
+	{
+		$formats = array(
+			'short' => '%d/%m/%Y, %H:%M',
+			'long' => '%d %B %Y, %H:%M',
+		);
+	}
+
+	$stamp += $config['time_offset'] * 3600;
+
+	return strftime($formats[$format], $stamp);
+}
+
 function build_url($parts = array(), $quick = true)
 {
 	global $core;

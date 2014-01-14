@@ -59,7 +59,7 @@ function home_main()
 		$template['recent_files'][] = array(
 			'name' => $row['name'],
 			'href' => build_url(array('browse', 'view', $row['id_file'])),
-			'time' => strftime('%d/%m/%Y, %H:%M', $row['time']),
+			'time' => format_time($row['time']),
 		);
 	}
 	db_free_result($request);

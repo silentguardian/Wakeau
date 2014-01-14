@@ -29,8 +29,8 @@ function profile_main()
 		$template['profile'] = array(
 			'email_address' => $row['email_address'],
 			'login_count' => $row['login_count'],
-			'last_login' => empty($row['last_login']) ? 'Never' : strftime('%d %B %Y, %H:%M', $row['last_login']),
-			'last_password_change' => empty($row['last_password_change']) ? 'Never' : strftime('%d %B %Y, %H:%M', $row['last_password_change']),
+			'last_login' => empty($row['last_login']) ? 'Never' : format_time($row['last_login'], 'long'),
+			'last_password_change' => empty($row['last_password_change']) ? 'Never' : format_time($row['last_password_change'], 'long'),
 		);
 	}
 	db_free_result($request);
