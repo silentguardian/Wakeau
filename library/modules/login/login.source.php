@@ -24,6 +24,7 @@ function login_main()
 
 		if ($username === '' || preg_match('~[^A-Za-z0-9\._]~', $username) || $password === '')
 			fatal_error('Invalid username or password!');
+		$username = htmlspecialchars($username, ENT_QUOTES);
 
 		$request = db_query("
 			SELECT id_user, password
@@ -37,13 +38,20 @@ function login_main()
 		if ($hash !== $real_password)
 			fatal_error('Invalid username or password!');
 
+		create_cookie(60 * 3153600, $id, $hash);
+
 		db_query("
 			UPDATE user
-			SET login_count = login_count + 1
+			SET last_login = " . time() . ",
+				login_count = login_count + 1
 			WHERE id_user = $id
 			LIMIT 1");
 
-		create_cookie(60 * 3153600, $id, $hash);
+		db_query("
+			REPLACE INTO online
+				(id_user, username, time)
+			VALUES
+				($id, '$username', " . time() . ")");
 
 		redirect(build_url());
 	}

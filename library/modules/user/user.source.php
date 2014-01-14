@@ -165,8 +165,8 @@ function user_edit()
 	{
 		$request = db_query("
 			SELECT
-				id_user, username, email_address,
-				admin, login_count, last_password_change
+				id_user, username, email_address, admin,
+				login_count, last_login, last_password_change
 			FROM user
 			WHERE id_user = $id_user
 			LIMIT 1");
@@ -179,6 +179,7 @@ function user_edit()
 				'email_address' => $row['email_address'],
 				'admin' => $row['admin'],
 				'login_count' => $row['login_count'],
+				'last_login' => empty($row['last_login']) ? 'Never' : strftime('%d %B %Y, %H:%M', $row['last_login']),
 				'last_password_change' => empty($row['last_password_change']) ? 'Never' : strftime('%d %B %Y, %H:%M', $row['last_password_change']),
 			);
 		}

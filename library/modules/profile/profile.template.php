@@ -52,6 +52,12 @@ function template_profile_main()
 					</div>
 				</div>
 				<div class="control-group">
+					<label class="control-label" for="last_login">Last login:</label>
+					<div class="controls">
+						<span class="input-xlarge uneditable-input" id="last_login">', $template['profile']['last_login'], '</span>
+					</div>
+				</div>
+				<div class="control-group">
 					<label class="control-label" for="last_password_change">Last password change:</label>
 					<div class="controls">
 						<span class="input-xlarge uneditable-input" id="last_password_change">', $template['profile']['last_password_change'], '</span>

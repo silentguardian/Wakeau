@@ -88,6 +88,20 @@ CREATE TABLE IF NOT EXISTS `file` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `online`
+--
+
+CREATE TABLE IF NOT EXISTS `online` (
+  `id_user` mediumint(8) NOT NULL DEFAULT '0',
+  `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `time` int(10) NOT NULL DEFAULT '0',
+  UNIQUE KEY `id_user` (`id_user`),
+  KEY `time` (`time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `store`
 --
 
@@ -142,6 +156,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `registered` int(10) NOT NULL DEFAULT '0',
   `admin` tinyint(4) NOT NULL DEFAULT '0',
   `login_count` mediumint(8) NOT NULL DEFAULT '0',
+  `last_login` int(10) NOT NULL DEFAULT '0',
   `last_password_change` int(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_user`),
   KEY `registered` (`registered`)

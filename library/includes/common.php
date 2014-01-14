@@ -118,6 +118,20 @@ function load_template()
 		);
 	}
 	db_free_result($request);
+
+	$request = db_query("
+		SELECT id_user, username
+		FROM online
+		ORDER BY time DESC");
+	$template['online_users'] = array();
+	while ($row = db_fetch_assoc($request))
+	{
+		$template['online_users'][] = array(
+			'id' => $row['id_user'],
+			'username' => $row['username'],
+		);
+	}
+	db_free_result($request);
 }
 
 function load_user()
@@ -178,6 +192,21 @@ function load_user()
 
 		if (isset($_COOKIE[$core['cookie']]))
 			$_COOKIE[$core['cookie']] = '';
+	}
+
+	if ($user['logged'] && (empty($_SESSION['log_online']) || time() - $_SESSION['log_online'] > 10))
+	{
+		db_query("
+			DELETE FROM online
+			WHERE time < " . (time() - 300));
+
+		db_query("
+			REPLACE INTO online
+				(id_user, username, time)
+			VALUES
+				($user[id], '$user[username]', " . time() . ")");
+
+		$_SESSION['log_online'] = time();
 	}
 }
 
@@ -400,7 +429,7 @@ function template_header()
 
 function template_footer()
 {
-	global $core, $db, $start_time;
+	global $core, $db, $template, $start_time;
 
 	$time = round(array_sum(explode(' ', microtime())) - array_sum(explode(' ', $start_time)), 3);
 	$queries = !empty($db['debug']) ? count($db['debug']) : 0;
@@ -409,7 +438,26 @@ function template_footer()
 		<hr />
 		<p>
 			<small class="pull-left">Wakeau ', $core['version'], ' &copy; 2014, Selman Eser</small>
-			<small class="pull-right"><span class="label">', $time, '</span> seconds <span class="label">', $queries, '</span> queries</small>
+			<small class="pull-right">';
+
+	if (!empty($template['online_users']))
+	{
+		echo '
+				<span id="online_users" style="display: none;">';
+
+		foreach ($template['online_users'] as $user)
+			echo '
+					<span class="label label-info">', $user['username'], '</span> ';
+
+		echo '
+				</span>
+				<span class="label" onclick="document.getElementById(\'online_users\').style.display = \'\';">', ($users = count($template['online_users'])), '</span> user', ($users > 1 ? 's' :''), ' online';
+	}
+
+	echo '
+				<span class="label">', $time, '</span> seconds
+				<span class="label">', $queries, '</span> queries
+			</small>
 		</p>
 	</div>
 	<script src="', $core['site_url'], 'interface/js/jquery.js"></script>

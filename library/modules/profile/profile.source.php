@@ -20,7 +20,7 @@ function profile_main()
 	$request = db_query("
 		SELECT
 			email_address, login_count,
-			last_password_change
+			last_login, last_password_change
 		FROM user
 		WHERE id_user = $user[id]
 		LIMIT 1");
@@ -29,6 +29,7 @@ function profile_main()
 		$template['profile'] = array(
 			'email_address' => $row['email_address'],
 			'login_count' => $row['login_count'],
+			'last_login' => empty($row['last_login']) ? 'Never' : strftime('%d %B %Y, %H:%M', $row['last_login']),
 			'last_password_change' => empty($row['last_password_change']) ? 'Never' : strftime('%d %B %Y, %H:%M', $row['last_password_change']),
 		);
 	}

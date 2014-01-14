@@ -15,6 +15,13 @@ if (!defined('CORE'))
 
 function logout_main()
 {
+	global $user;
+
+	db_query("
+		DELETE FROM online
+		WHERE id_user = $user[id]
+		LIMIT 1");
+
 	create_cookie(-3600, 0);
 
 	redirect(build_url());
