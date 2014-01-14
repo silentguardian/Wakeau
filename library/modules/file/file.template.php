@@ -177,7 +177,7 @@ function template_file_edit()
 		foreach ($subcategories as $id_subcategory => $name)
 		{
 			echo '
-					', $id_subcategory, ': \'', $name, '\'', ++$count_subcategories == $total_subcategories ? '' : ',';
+					', $count_subcategories++, ': [', $id_subcategory, ', \'', $name, '\']', $count_subcategories == $total_subcategories ? '' : ',';
 		}
 
 		echo '
@@ -196,7 +196,7 @@ function template_file_edit()
 				while (subcategory_select.options.length - 1)
 					subcategory_select.options[1] = null;
 				for (var key in subcategories[value])
-					subcategory_select.options[subcategory_select.length] = new Option(subcategories[value][key], key);
+					subcategory_select.options[subcategory_select.length] = new Option(subcategories[value][key][1], subcategories[value][key][0]);
 			}
 		// ]]></script>';
 }
