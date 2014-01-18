@@ -119,7 +119,7 @@ function template_user_edit()
 				<div class="control-group">
 					<label class="control-label" for="last_login">Last login:</label>
 					<div class="controls">
-						<span class="input-xlarge uneditable-input" id="last_login">', $template['profile']['last_login'], '</span>
+						<span class="input-xlarge uneditable-input" id="last_login">', $template['user']['last_login'], '</span>
 					</div>
 				</div>
 				<div class="control-group">

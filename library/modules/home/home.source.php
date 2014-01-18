@@ -25,7 +25,7 @@ function home_main()
 	db_free_result($request);
 
 	$request = db_query("
-		SELECT COUNT(id_file), SUM(downloads), SUM(comments)
+		SELECT COUNT(id_file), IFNULL(SUM(downloads), 0), IFNULL(SUM(comments), 0)
 		FROM file
 		LIMIT 1");
 	list ($template['total_files'], $template['total_downloads'], $template['total_comments']) = db_fetch_row($request);

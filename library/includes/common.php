@@ -212,7 +212,7 @@ function load_user()
 
 function start_session()
 {
-	global $core;
+	global $user;
 
 	if (session_id() == '')
 		session_start();
@@ -220,7 +220,7 @@ function start_session()
 	if (!isset($_SESSION['session_id']))
 		$_SESSION['session_id'] = md5(session_id() . mt_rand() . (string) microtime());
 
-	$core['session_id'] = $_SESSION['session_id'];
+	$user['session_id'] = $_SESSION['session_id'];
 }
 
 function create_cookie($length, $user, $pass = '')
@@ -292,7 +292,7 @@ function format_time($stamp, $format = 'short')
 		);
 	}
 
-	$stamp += $config['time_offset'] * 3600;
+	$stamp += $core['time_offset'] * 3600;
 
 	return strftime($formats[$format], $stamp);
 }
