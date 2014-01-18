@@ -19,6 +19,8 @@ function upload_main()
 
 	if (!empty($_POST['save']))
 	{
+		check_session('upload');
+
 		$values = array();
 		$fields = array(
 			'id_category' => 'int',

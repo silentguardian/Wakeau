@@ -61,7 +61,7 @@ function template_type_list()
 
 function template_type_edit()
 {
-	global $template;
+	global $user, $template;
 
 	echo '
 		<form class="form-horizontal" action="', build_url(array('type', 'edit')), '" method="post">
@@ -85,5 +85,6 @@ function template_type_edit()
 				</div>
 			</fieldset>
 			<input type="hidden" name="type" value="', $template['type']['id'], '" />
+			<input type="hidden" name="session_id" value="', $user['session_id'], '" />
 		</form>';
 }

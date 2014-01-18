@@ -64,7 +64,7 @@ function template_announcement_list()
 
 function template_announcement_edit()
 {
-	global $template;
+	global $user, $template;
 
 	echo '
 		<form class="form-horizontal" action="', build_url(array('announcement', 'edit')), '" method="post">
@@ -114,5 +114,6 @@ function template_announcement_edit()
 				</div>
 			</fieldset>
 			<input type="hidden" name="announcement" value="', $template['announcement']['id'], '" />
+			<input type="hidden" name="session_id" value="', $user['session_id'], '" />
 		</form>';
 }

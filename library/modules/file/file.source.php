@@ -112,6 +112,8 @@ function file_edit()
 
 	if (!empty($_POST['save']))
 	{
+		check_session('file');
+
 		$values = array();
 		$fields = array(
 			'id_category' => 'int',

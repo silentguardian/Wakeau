@@ -19,6 +19,8 @@ function login_main()
 
 	if (!empty($_POST['submit']))
 	{
+		check_session('login');
+
 		$username = !empty($_POST['username']) ? $_POST['username'] : '';
 		$password = !empty($_POST['password']) ? $_POST['password'] : '';
 

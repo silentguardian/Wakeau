@@ -15,7 +15,7 @@ if (!defined('CORE'))
 
 function template_register_main()
 {
-	global $template;
+	global $user;
 
 	echo '
 		<form class="form-horizontal" action="', build_url('register'), '" method="post">
@@ -49,5 +49,6 @@ function template_register_main()
 					<input type="submit" class="btn btn-primary" name="submit" value="Submit" />
 				</div>
 			</fieldset>
+			<input type="hidden" name="session_id" value="', $user['session_id'], '" />
 		</form>';
 }

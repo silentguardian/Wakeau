@@ -15,7 +15,7 @@ if (!defined('CORE'))
 
 function template_subcategory_list()
 {
-	global $template;
+	global $user, $template;
 
 	echo '
 		<div class="page-header">
@@ -105,5 +105,6 @@ function template_subcategory_edit()
 				</div>
 			</fieldset>
 			<input type="hidden" name="subcategory" value="', $template['subcategory']['id'], '" />
+			<input type="hidden" name="session_id" value="', $user['session_id'], '" />
 		</form>';
 }

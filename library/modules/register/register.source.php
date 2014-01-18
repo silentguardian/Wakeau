@@ -19,6 +19,8 @@ function register_main()
 
 	if (!empty($_POST['submit']))
 	{
+		check_session('register');
+
 		$values = array();
 		$fields = array(
 			'username' => 'username',

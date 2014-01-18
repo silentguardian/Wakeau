@@ -169,6 +169,7 @@ function load_user()
 				'username' => $row['username'],
 				'admin' => !empty($row['admin']),
 				'logged' => true,
+				'session_id' => $core['session_id'],
 			);
 		}
 		db_free_result($request);
@@ -184,6 +185,7 @@ function load_user()
 			'username' => '',
 			'admin' => false,
 			'logged' => false,
+			'session_id' => $core['session_id'],
 		);
 	}
 	else
@@ -212,7 +214,7 @@ function load_user()
 
 function start_session()
 {
-	global $user;
+	global $core;
 
 	if (session_id() == '')
 		session_start();
@@ -220,7 +222,7 @@ function start_session()
 	if (!isset($_SESSION['session_id']))
 		$_SESSION['session_id'] = md5(session_id() . mt_rand() . (string) microtime());
 
-	$user['session_id'] = $_SESSION['session_id'];
+	$core['session_id'] = $_SESSION['session_id'];
 }
 
 function create_cookie($length, $user, $pass = '')
@@ -248,6 +250,20 @@ function create_cookie($length, $user, $pass = '')
 
 		$_SESSION['login_' . $core['cookie']] = $data;
 	}
+}
+
+function check_session($action = '')
+{
+	global $core;
+
+	if (empty($_POST['session_id']) || $_POST['session_id'] != $core['session_id'])
+		fatal_error('Session timed out!');
+
+	if ((!isset($_SESSION['user_agent']) || $_SESSION['user_agent'] != $_SERVER['HTTP_USER_AGENT']))
+		fatal_error('Session could not be verified!');
+
+	if (!isset($_SESSION['old_action']) || $_SESSION['old_action'] != $action)
+		fatal_error('Session URL could not be verified!');
 }
 
 function clean_request()
@@ -523,6 +539,9 @@ function ob_exit()
 	template_footer();
 
 	ob_end_flush();
+
+	$_SESSION['old_action'] = $core['current_module'];
+	$_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
 
 	exit();
 }

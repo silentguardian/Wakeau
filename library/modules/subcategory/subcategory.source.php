@@ -93,6 +93,8 @@ function subcategory_edit()
 
 	if (!empty($_POST['save']))
 	{
+		check_session('subcategory');
+
 		$values = array();
 		$fields = array(
 			'id_category' => 'int',

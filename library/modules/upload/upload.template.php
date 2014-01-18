@@ -15,7 +15,7 @@ if (!defined('CORE'))
 
 function template_upload_main()
 {
-	global $template;
+	global $user, $template;
 
 	echo '
 		<form class="form-horizontal" action="', build_url('upload'), '" method="post" enctype="multipart/form-data">
@@ -89,6 +89,7 @@ function template_upload_main()
 					<input type="submit" class="btn" name="cancel" value="Cancel" />
 				</div>
 			</fieldset>
+			<input type="hidden" name="session_id" value="', $user['session_id'], '" />
 		</form>
 		<script type="text/javascript"><!-- // --><![CDATA[
 			var subcategories = {';

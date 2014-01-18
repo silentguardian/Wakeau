@@ -37,6 +37,8 @@ function profile_main()
 
 	if (!empty($_POST['save']))
 	{
+		check_session('profile');
+
 		$values = array();
 		$fields = array(
 			'email_address' => 'email',

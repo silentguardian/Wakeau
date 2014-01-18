@@ -481,6 +481,8 @@ function browse_edit()
 
 	if (!empty($_POST['save']))
 	{
+		check_session('browse');
+
 		$values = array();
 		$fields = array(
 			'id_category' => 'int',

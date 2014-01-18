@@ -67,7 +67,7 @@ function template_user_list()
 
 function template_user_edit()
 {
-	global $template;
+	global $user, $template;
 
 	echo '
 		<form class="form-horizontal" action="', build_url(array('user', 'edit')), '" method="post">
@@ -137,5 +137,6 @@ function template_user_edit()
 				</div>
 			</fieldset>
 			<input type="hidden" name="user" value="', $template['user']['id'], '" />
+			<input type="hidden" name="session_id" value="', $user['session_id'], '" />
 		</form>';
 }

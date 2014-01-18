@@ -71,7 +71,7 @@ function template_file_list()
 
 function template_file_edit()
 {
-	global $template;
+	global $user, $template;
 
 	echo '
 		<form class="form-horizontal" action="', build_url(array('file', 'edit')), '" method="post" enctype="multipart/form-data">
@@ -159,6 +159,7 @@ function template_file_edit()
 				</div>
 			</fieldset>
 			<input type="hidden" name="file" value="', $template['file']['id'], '" />
+			<input type="hidden" name="session_id" value="', $user['session_id'], '" />
 		</form>
 		<script type="text/javascript"><!-- // --><![CDATA[
 			var subcategories = {';

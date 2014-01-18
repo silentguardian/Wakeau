@@ -15,6 +15,8 @@ if (!defined('CORE'))
 
 function template_login_main()
 {
+	global $user;
+
 	echo '
 		<form class="form-horizontal" action="', build_url('login'), '" method="post">
 			<fieldset>
@@ -35,5 +37,6 @@ function template_login_main()
 					<input type="submit" class="btn btn-primary" name="submit" value="Submit" />
 				</div>
 			</fieldset>
+			<input type="hidden" name="session_id" value="', $user['session_id'], '" />
 		</form>';
 }

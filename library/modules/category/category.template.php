@@ -65,7 +65,7 @@ function template_category_list()
 
 function template_category_edit()
 {
-	global $template;
+	global $user, $template;
 
 	echo '
 		<form class="form-horizontal" action="', build_url(array('category', 'edit')), '" method="post">
@@ -89,5 +89,6 @@ function template_category_edit()
 				</div>
 			</fieldset>
 			<input type="hidden" name="category" value="', $template['category']['id'], '" />
+			<input type="hidden" name="session_id" value="', $user['session_id'], '" />
 		</form>';
 }

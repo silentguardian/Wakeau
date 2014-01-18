@@ -62,6 +62,8 @@ function user_edit()
 
 	if (!empty($_POST['save']))
 	{
+		check_session('user');
+
 		$values = array();
 		$fields = array(
 			'username' => 'username',

@@ -61,6 +61,8 @@ function category_edit()
 
 	if (!empty($_POST['save']))
 	{
+		check_session('category');
+
 		$values = array();
 		$fields = array(
 			'name' => 'string',

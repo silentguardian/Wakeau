@@ -57,6 +57,8 @@ function type_edit()
 
 	if (!empty($_POST['save']))
 	{
+		check_session('type');
+
 		$values = array();
 		$fields = array(
 			'name' => 'string',

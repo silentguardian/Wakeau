@@ -66,6 +66,8 @@ function announcement_edit()
 
 	if (!empty($_POST['save']))
 	{
+		check_session('announcement');
+
 		$values = array();
 		$fields = array(
 			'title' => 'string',

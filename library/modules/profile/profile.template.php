@@ -15,7 +15,7 @@ if (!defined('CORE'))
 
 function template_profile_main()
 {
-	global $template;
+	global $user, $template;
 
 	echo '
 		<form class="form-horizontal" action="', build_url('profile'), '" method="post">
@@ -67,5 +67,6 @@ function template_profile_main()
 					<input type="submit" class="btn btn-primary" name="save" value="Save changes" />
 				</div>
 			</fieldset>
+			<input type="hidden" name="session_id" value="', $user['session_id'], '" />
 		</form>';
 }

@@ -370,7 +370,7 @@ function template_browse_view()
 
 function template_browse_edit()
 {
-	global $template;
+	global $user, $template;
 
 	echo '
 		<form class="form-horizontal" action="', build_url(array('browse', 'edit')), '" method="post" enctype="multipart/form-data">
@@ -451,6 +451,7 @@ function template_browse_edit()
 				</div>
 			</fieldset>
 			<input type="hidden" name="browse" value="', $template['file']['id'], '" />
+			<input type="hidden" name="session_id" value="', $user['session_id'], '" />
 		</form>
 		<script type="text/javascript"><!-- // --><![CDATA[
 			var subcategories = {';
