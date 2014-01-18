@@ -32,8 +32,11 @@ $core['storage_extension'] = array(
 	'jpg', 'jpeg', 'gif', 'png',
 	'avi', 'mp4', 'mov', 'flv',
 	'mp3', 'wav', 'wma', 'ogg',
-	'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx',
-	'txt', 'rtf', 'pdf', 'zip', 'rar',
+	'doc', 'xls', 'ppt',
+	'docx', 'xlsx', 'pptx',
+	'txt', 'rtf', 'pdf',
+	'zip', 'rar', 'tar', 'gz',
+	'tst', 'bnk',
 );
 
 $db = array();

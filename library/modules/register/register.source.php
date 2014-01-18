@@ -15,7 +15,7 @@ if (!defined('CORE'))
 
 function register_main()
 {
-	global $core, $template, $user;
+	global $core, $template;
 
 	if (!empty($_POST['submit']))
 	{

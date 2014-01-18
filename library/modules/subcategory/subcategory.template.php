@@ -15,7 +15,7 @@ if (!defined('CORE'))
 
 function template_subcategory_list()
 {
-	global $user, $template;
+	global $template;
 
 	echo '
 		<div class="page-header">
@@ -65,7 +65,7 @@ function template_subcategory_list()
 
 function template_subcategory_edit()
 {
-	global $template;
+	global $user, $template;
 
 	echo '
 		<form class="form-horizontal" action="', build_url(array('subcategory', 'edit')), '" method="post">
