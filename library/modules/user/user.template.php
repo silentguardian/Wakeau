@@ -55,7 +55,7 @@ function template_user_list()
 					<td class="span3 align_center">
 						<a class="btn btn-info" href="', build_url(array('browse', 'user', $user['id'])), '">Browse</a>
 						<a class="btn btn-primary" href="', build_url(array('user', 'edit', $user['id'])), '">Edit</a>
-						<a class="btn btn-danger" href="', build_url(array('user', 'delete', $user['id'])), '" onclick="return confirm(\'Are you sure that you want to delete this item?\');">Delete</a>
+						<a class="btn btn-danger" href="', build_url(array('user', 'delete', $user['id'])), '">Delete</a>
 					</td>
 				</tr>';
 	}
@@ -133,6 +133,25 @@ function template_user_edit()
 	echo '
 				<div class="form-actions">
 					<input type="submit" class="btn btn-primary" name="save" value="Save changes" />
+					<input type="submit" class="btn" name="cancel" value="Cancel" />
+				</div>
+			</fieldset>
+			<input type="hidden" name="user" value="', $template['user']['id'], '" />
+			<input type="hidden" name="session_id" value="', $user['session_id'], '" />
+		</form>';
+}
+
+function template_user_delete()
+{
+	global $user, $template;
+
+	echo '
+		<form class="form-horizontal" action="', build_url(array('user', 'delete')), '" method="post">
+			<fieldset>
+				<legend>Delete User</legend>
+				Are you sure you want to delete the user &quot;', $template['user']['username'], '&quot;?
+				<div class="form-actions">
+					<input type="submit" class="btn btn-danger" name="delete" value="Delete" />
 					<input type="submit" class="btn" name="cancel" value="Cancel" />
 				</div>
 			</fieldset>

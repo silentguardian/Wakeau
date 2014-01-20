@@ -182,18 +182,33 @@ function subcategory_edit()
 
 function subcategory_delete()
 {
+	global $core, $template;
+
 	$id_subcategory = !empty($_REQUEST['subcategory']) ? (int) $_REQUEST['subcategory'] : 0;
 
 	$request = db_query("
-		SELECT id_subcategory, id_category
+		SELECT id_subcategory, id_category, name
 		FROM subcategory
 		WHERE id_subcategory = $id_subcategory
 		LIMIT 1");
-	list ($id_subcategory, $id_category) = db_fetch_row($request);
+	while ($row = db_fetch_assoc($request))
+	{
+		$id_category = $row['id_category'];
+
+		$template['subcategory'] = array(
+			'id' => $row['id_subcategory'],
+			'name' => $row['name'],
+		);
+	}
 	db_free_result($request);
 
-	if (!empty($id_subcategory))
+	if (!isset($template['subcategory']))
+		fatal_error('The subcategory requested does not exist!');
+
+	if (!empty($_POST['delete']))
 	{
+		check_session('subcategory');
+
 		db_query("
 			DELETE FROM subcategory
 			WHERE id_subcategory = $id_subcategory
@@ -208,6 +223,10 @@ function subcategory_delete()
 
 		redirect(build_url('subcategory'));
 	}
-	else
-		fatal_error('The subcategory requested does not exist!');
+
+	if (!empty($_POST['delete']) || !empty($_POST['cancel']))
+		redirect(build_url('subcategory'));
+
+	$template['page_title'] = 'Delete Subcategory';
+	$core['current_template'] = 'subcategory_delete';
 }

@@ -608,48 +608,67 @@ function browse_edit()
 
 function browse_delete()
 {
-	global $core, $user;
+	global $core, $template;
 
 	$id_file = !empty($_REQUEST['browse']) ? (int) $_REQUEST['browse'] : 0;
 
 	$request = db_query("
-		SELECT id_file, id_user, id_subcategory, id_store
+		SELECT id_file, id_user, id_subcategory, id_store, name
 		FROM file
 		WHERE id_file = $id_file
 		LIMIT 1");
-	list ($id_file, $id_user, $id_subcategory, $id_store) = db_fetch_row($request);
+	while ($row = db_fetch_assoc($request))
+	{
+		$id_user = $row['id_user'];
+		$id_subcategory = $row['id_subcategory'];
+		$id_store = $row['id_store'];
+
+		$template['file'] = array(
+			'id' => $row['id_file'],
+			'name' => $row['name'],
+		);
+	}
 	db_free_result($request);
 
-	if (empty($id_file))
-		fatal_error('The file requested does not exist!');
+	if (!isset($template['file']))
+		fatal_error('The type requested does not exist!');
 	elseif (!$user['admin'] && $user['id'] != $id_user)
 		fatal_error('You are not allowed to carry out this action!');
 
-	$request = db_query("
-		SELECT alias
-		FROM store
-		WHERE id_store = $id_store
-		LIMIT 1");
-	list ($alias) = db_fetch_row($request);
-	db_free_result($request);
+	if (!empty($_POST['delete']))
+	{
+		check_session('browse');
 
-	db_query("
-		DELETE FROM store
-		WHERE id_store = $id_store
-		LIMIT 1");
+		$request = db_query("
+			SELECT alias
+			FROM store
+			WHERE id_store = $id_store
+			LIMIT 1");
+		list ($alias) = db_fetch_row($request);
+		db_free_result($request);
 
-	@unlink($core['storage_dir'] . '/' . $alias . '.w');
+		db_query("
+			DELETE FROM store
+			WHERE id_store = $id_store
+			LIMIT 1");
 
-	db_query("
-		DELETE FROM comment
-		WHERE id_file = $id_file");
+		@unlink($core['storage_dir'] . '/' . $alias . '.w');
 
-	db_query("
-		DELETE FROM file
-		WHERE id_file = $id_file
-		LIMIT 1");
+		db_query("
+			DELETE FROM comment
+			WHERE id_file = $id_file");
 
-	recount_stats('file', $id_subcategory);
+		db_query("
+			DELETE FROM file
+			WHERE id_file = $id_file
+			LIMIT 1");
 
-	redirect(build_url(array('browse', 'file', $id_subcategory)));
+		recount_stats('file', $id_subcategory);
+	}
+
+	if (!empty($_POST['delete']) || !empty($_POST['cancel']))
+		redirect(build_url(array('browse', 'file', $id_subcategory)));
+
+	$template['page_title'] = 'Delete File';
+	$core['current_template'] = 'browse_delete';
 }

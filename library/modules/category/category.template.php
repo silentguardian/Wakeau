@@ -92,3 +92,22 @@ function template_category_edit()
 			<input type="hidden" name="session_id" value="', $user['session_id'], '" />
 		</form>';
 }
+
+function template_category_delete()
+{
+	global $user, $template;
+
+	echo '
+		<form class="form-horizontal" action="', build_url(array('category', 'delete')), '" method="post">
+			<fieldset>
+				<legend>Delete Category</legend>
+				Are you sure you want to delete the category &quot;', $template['category']['name'], '&quot;?
+				<div class="form-actions">
+					<input type="submit" class="btn btn-danger" name="delete" value="Delete" />
+					<input type="submit" class="btn" name="cancel" value="Cancel" />
+				</div>
+			</fieldset>
+			<input type="hidden" name="category" value="', $template['category']['id'], '" />
+			<input type="hidden" name="session_id" value="', $user['session_id'], '" />
+		</form>';
+}

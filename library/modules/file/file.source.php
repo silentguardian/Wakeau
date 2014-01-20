@@ -261,20 +261,34 @@ function file_edit()
 
 function file_delete()
 {
-	global $core;
+	global $core, $template;
 
 	$id_file = !empty($_REQUEST['file']) ? (int) $_REQUEST['file'] : 0;
 
 	$request = db_query("
-		SELECT id_file, id_subcategory, id_store
+		SELECT id_file, id_subcategory, id_store, name
 		FROM file
 		WHERE id_file = $id_file
 		LIMIT 1");
-	list ($id_file, $id_subcategory, $id_store) = db_fetch_row($request);
+	while ($row = db_fetch_assoc($request))
+	{
+		$id_subcategory = $row['id_subcategory'];
+		$id_store = $row['id_store'];
+
+		$template['file'] = array(
+			'id' => $row['id_file'],
+			'name' => $row['name'],
+		);
+	}
 	db_free_result($request);
 
-	if (!empty($id_file))
+	if (!isset($template['file']))
+		fatal_error('The file requested does not exist!');
+
+	if (!empty($_POST['delete']))
 	{
+		check_session('file');
+
 		$request = db_query("
 			SELECT alias
 			FROM store
@@ -300,9 +314,11 @@ function file_delete()
 			LIMIT 1");
 
 		recount_stats('file', $id_subcategory);
-
-		redirect(build_url('file'));
 	}
-	else
-		fatal_error('The file requested does not exist!');
+
+	if (!empty($_POST['delete']) || !empty($_POST['cancel']))
+		redirect(build_url('file'));
+
+	$template['page_title'] = 'Delete File';
+	$core['current_template'] = 'file_delete';
 }

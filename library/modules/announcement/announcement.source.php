@@ -166,25 +166,40 @@ function announcement_edit()
 
 function announcement_delete()
 {
+	global $core, $template;
+
 	$id_announcement = !empty($_REQUEST['announcement']) ? (int) $_REQUEST['announcement'] : 0;
 
 	$request = db_query("
-		SELECT id_announcement
+		SELECT id_announcement, title
 		FROM announcement
 		WHERE id_announcement = $id_announcement
 		LIMIT 1");
-	list ($id_announcement) = db_fetch_row($request);
+	while ($row = db_fetch_assoc($request))
+	{
+		$template['announcement'] = array(
+			'id' => $row['id_announcement'],
+			'title' => $row['title'],
+		);
+	}
 	db_free_result($request);
 
-	if (!empty($id_announcement))
+	if (!isset($template['announcement']))
+		fatal_error('The announcement requested does not exist!');
+
+	if (!empty($_POST['delete']))
 	{
+		check_session('announcement');
+
 		db_query("
 			DELETE FROM announcement
 			WHERE id_announcement = $id_announcement
 			LIMIT 1");
-
-		redirect(build_url('announcement'));
 	}
-	else
-		fatal_error('The announcement requested does not exist!');
+
+	if (!empty($_POST['delete']) || !empty($_POST['cancel']))
+		redirect(build_url('announcement'));
+
+	$template['page_title'] = 'Delete Announcement';
+	$core['current_template'] = 'announcement_delete';
 }

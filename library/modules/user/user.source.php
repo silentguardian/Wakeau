@@ -197,25 +197,40 @@ function user_edit()
 
 function user_delete()
 {
+	global $core, $template;
+
 	$id_user = !empty($_REQUEST['user']) ? (int) $_REQUEST['user'] : 0;
 
 	$request = db_query("
-		SELECT id_user
+		SELECT id_user, username
 		FROM user
 		WHERE id_user = $id_user
 		LIMIT 1");
-	list ($id_user) = db_fetch_row($request);
+	while ($row = db_fetch_assoc($request))
+	{
+		$template['user'] = array(
+			'id' => $row['id_user'],
+			'username' => $row['username'],
+		);
+	}
 	db_free_result($request);
 
-	if (!empty($id_user))
+	if (!isset($template['user']))
+		fatal_error('The user requested does not exist!');
+
+	if (!empty($_POST['delete']))
 	{
+		check_session('user');
+
 		db_query("
 			DELETE FROM user
 			WHERE id_user = $id_user
 			LIMIT 1");
-
-		redirect(build_url('user'));
 	}
-	else
-		fatal_error('The user requested does not exist!');
+
+	if (!empty($_POST['delete']) || !empty($_POST['cancel']))
+		redirect(build_url('user'));
+
+	$template['page_title'] = 'Delete User';
+	$core['current_template'] = 'user_delete';
 }

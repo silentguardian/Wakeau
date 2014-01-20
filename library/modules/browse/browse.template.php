@@ -286,7 +286,7 @@ function template_browse_view()
 	{
 		echo '
 				<a class="btn btn-primary" href="', build_url(array('browse', 'edit', $template['file']['id'])), '">Edit</a>
-				<a class="btn btn-danger" href="', build_url(array('browse', 'delete', $template['file']['id'])), '" onclick="return confirm(\'Are you sure that you want to delete this item?\');">Delete</a>';
+				<a class="btn btn-danger" href="', build_url(array('browse', 'delete', $template['file']['id'])), '">Delete</a>';
 	}
 
 	echo '
@@ -492,4 +492,23 @@ function template_browse_edit()
 					subcategory_select.options[subcategory_select.length] = new Option(subcategories[value][key][1], subcategories[value][key][0]);
 			}
 		// ]]></script>';
+}
+
+function template_browse_delete()
+{
+	global $user, $template;
+
+	echo '
+		<form class="form-horizontal" action="', build_url(array('browse', 'delete')), '" method="post">
+			<fieldset>
+				<legend>Delete File</legend>
+				Are you sure you want to delete the file &quot;', $template['file']['name'], '&quot;?
+				<div class="form-actions">
+					<input type="submit" class="btn btn-danger" name="delete" value="Delete" />
+					<input type="submit" class="btn" name="cancel" value="Cancel" />
+				</div>
+			</fieldset>
+			<input type="hidden" name="file" value="', $template['file']['id'], '" />
+			<input type="hidden" name="session_id" value="', $user['session_id'], '" />
+		</form>';
 }

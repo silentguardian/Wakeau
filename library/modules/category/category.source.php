@@ -148,18 +148,31 @@ function category_edit()
 
 function category_delete()
 {
+	global $core, $template;
+
 	$id_category = !empty($_REQUEST['category']) ? (int) $_REQUEST['category'] : 0;
 
 	$request = db_query("
-		SELECT id_category
+		SELECT id_category, name
 		FROM category
 		WHERE id_category = $id_category
 		LIMIT 1");
-	list ($id_category) = db_fetch_row($request);
+	while ($row = db_fetch_assoc($request))
+	{
+		$template['category'] = array(
+			'id' => $row['id_category'],
+			'name' => $row['name'],
+		);
+	}
 	db_free_result($request);
 
-	if (!empty($id_category))
+	if (!isset($template['category']))
+		fatal_error('The category requested does not exist!');
+
+	if (!empty($_POST['delete']))
 	{
+		check_session('category');
+
 		db_query("
 			DELETE FROM category
 			WHERE id_category = $id_category
@@ -174,9 +187,11 @@ function category_delete()
 			UPDATE file
 			SET id_category = 0
 			WHERE id_category = $id_category");
-
-		redirect(build_url('category'));
 	}
-	else
-		fatal_error('The category requested does not exist!');
+
+	if (!empty($_POST['delete']) || !empty($_POST['cancel']))
+		redirect(build_url('category'));
+
+	$template['page_title'] = 'Delete Category';
+	$core['current_template'] = 'category_delete';
 }

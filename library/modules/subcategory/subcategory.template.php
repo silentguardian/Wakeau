@@ -53,7 +53,7 @@ function template_subcategory_list()
 					<td class="span3 align_center">
 						<a class="btn btn-info" href="', build_url(array('browse', 'file', $subcategory['id'])), '">Browse</a>
 						<a class="btn btn-primary" href="', build_url(array('subcategory', 'edit', $subcategory['id'])), '">Edit</a>
-						<a class="btn btn-danger" href="', build_url(array('subcategory', 'delete', $subcategory['id'])), '" onclick="return confirm(\'Are you sure that you want to delete this item?\');">Delete</a>
+						<a class="btn btn-danger" href="', build_url(array('subcategory', 'delete', $subcategory['id'])), '">Delete</a>
 					</td>
 				</tr>';
 	}
@@ -101,6 +101,25 @@ function template_subcategory_edit()
 				</div>
 				<div class="form-actions">
 					<input type="submit" class="btn btn-primary" name="save" value="Save changes" />
+					<input type="submit" class="btn" name="cancel" value="Cancel" />
+				</div>
+			</fieldset>
+			<input type="hidden" name="subcategory" value="', $template['subcategory']['id'], '" />
+			<input type="hidden" name="session_id" value="', $user['session_id'], '" />
+		</form>';
+}
+
+function template_subcategory_delete()
+{
+	global $user, $template;
+
+	echo '
+		<form class="form-horizontal" action="', build_url(array('subcategory', 'delete')), '" method="post">
+			<fieldset>
+				<legend>Delete Subcategory</legend>
+				Are you sure you want to delete the subcategory &quot;', $template['subcategory']['name'], '&quot;?
+				<div class="form-actions">
+					<input type="submit" class="btn btn-danger" name="delete" value="Delete" />
 					<input type="submit" class="btn" name="cancel" value="Cancel" />
 				</div>
 			</fieldset>

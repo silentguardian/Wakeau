@@ -52,7 +52,7 @@ function template_announcement_list()
 					<td class="span3 align_center">', $announcement['state'], '</td>
 					<td class="span3 align_center">
 						<a class="btn btn-primary" href="', build_url(array('announcement', 'edit', $announcement['id'])), '">Edit</a>
-						<a class="btn btn-danger" href="', build_url(array('announcement', 'delete', $announcement['id'])), '" onclick="return confirm(\'Are you sure that you want to remove this item?\');">Delete</a>
+						<a class="btn btn-danger" href="', build_url(array('announcement', 'delete', $announcement['id'])), '">Delete</a>
 					</td>
 				</tr>';
 	}
@@ -110,6 +110,25 @@ function template_announcement_edit()
 				</div>
 				<div class="form-actions">
 					<input type="submit" class="btn btn-primary" name="save" value="Save changes" />
+					<input type="submit" class="btn" name="cancel" value="Cancel" />
+				</div>
+			</fieldset>
+			<input type="hidden" name="announcement" value="', $template['announcement']['id'], '" />
+			<input type="hidden" name="session_id" value="', $user['session_id'], '" />
+		</form>';
+}
+
+function template_announcement_delete()
+{
+	global $user, $template;
+
+	echo '
+		<form class="form-horizontal" action="', build_url(array('announcement', 'delete')), '" method="post">
+			<fieldset>
+				<legend>Delete Announcement</legend>
+				Are you sure you want to delete the announcement &quot;', $template['announcement']['title'], '&quot;?
+				<div class="form-actions">
+					<input type="submit" class="btn btn-danger" name="delete" value="Delete" />
 					<input type="submit" class="btn" name="cancel" value="Cancel" />
 				</div>
 			</fieldset>

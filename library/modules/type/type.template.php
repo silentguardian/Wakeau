@@ -49,7 +49,7 @@ function template_type_list()
 					<td class="span3 align_center">
 						<a class="btn btn-info" href="', build_url(array('browse', 'type', $type['id'])), '">Browse</a>
 						<a class="btn btn-primary" href="', build_url(array('type', 'edit', $type['id'])), '">Edit</a>
-						<a class="btn btn-danger" href="', build_url(array('type', 'delete', $type['id'])), '" onclick="return confirm(\'Are you sure that you want to delete this item?\');">Delete</a>
+						<a class="btn btn-danger" href="', build_url(array('type', 'delete', $type['id'])), '">Delete</a>
 					</td>
 				</tr>';
 	}
@@ -81,6 +81,25 @@ function template_type_edit()
 				</div>
 				<div class="form-actions">
 					<input type="submit" class="btn btn-primary" name="save" value="Save changes" />
+					<input type="submit" class="btn" name="cancel" value="Cancel" />
+				</div>
+			</fieldset>
+			<input type="hidden" name="type" value="', $template['type']['id'], '" />
+			<input type="hidden" name="session_id" value="', $user['session_id'], '" />
+		</form>';
+}
+
+function template_type_delete()
+{
+	global $user, $template;
+
+	echo '
+		<form class="form-horizontal" action="', build_url(array('type', 'delete')), '" method="post">
+			<fieldset>
+				<legend>Delete Type</legend>
+				Are you sure you want to delete the type &quot;', $template['type']['name'], '&quot;?
+				<div class="form-actions">
+					<input type="submit" class="btn btn-danger" name="delete" value="Delete" />
 					<input type="submit" class="btn" name="cancel" value="Cancel" />
 				</div>
 			</fieldset>

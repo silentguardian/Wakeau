@@ -144,18 +144,31 @@ function type_edit()
 
 function type_delete()
 {
+	global $core, $template;
+
 	$id_type = !empty($_REQUEST['type']) ? (int) $_REQUEST['type'] : 0;
 
 	$request = db_query("
-		SELECT id_type
+		SELECT id_type, name
 		FROM type
 		WHERE id_type = $id_type
 		LIMIT 1");
-	list ($id_type) = db_fetch_row($request);
+	while ($row = db_fetch_assoc($request))
+	{
+		$template['type'] = array(
+			'id' => $row['id_type'],
+			'name' => $row['name'],
+		);
+	}
 	db_free_result($request);
 
-	if (!empty($id_type))
+	if (!isset($template['type']))
+		fatal_error('The type requested does not exist!');
+
+	if (!empty($_POST['delete']))
 	{
+		check_session('type');
+
 		db_query("
 			DELETE FROM type
 			WHERE id_type = $id_type
@@ -163,11 +176,13 @@ function type_delete()
 
 		db_query("
 			UPDATE file
-			SET type = 0
+			SET id_type = 0
 			WHERE id_type = $id_type");
-
-		redirect(build_url('type'));
 	}
-	else
-		fatal_error('The type requested does not exist!');
+
+	if (!empty($_POST['delete']) || !empty($_POST['cancel']))
+		redirect(build_url('type'));
+
+	$template['page_title'] = 'Delete Type';
+	$core['current_template'] = 'type_delete';
 }
