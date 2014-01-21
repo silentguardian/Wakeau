@@ -608,7 +608,7 @@ function browse_edit()
 
 function browse_delete()
 {
-	global $core, $template;
+	global $core, $template, $user;
 
 	$id_file = !empty($_REQUEST['browse']) ? (int) $_REQUEST['browse'] : 0;
 

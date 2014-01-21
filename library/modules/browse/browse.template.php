@@ -508,7 +508,7 @@ function template_browse_delete()
 					<input type="submit" class="btn" name="cancel" value="Cancel" />
 				</div>
 			</fieldset>
-			<input type="hidden" name="file" value="', $template['file']['id'], '" />
+			<input type="hidden" name="browse" value="', $template['file']['id'], '" />
 			<input type="hidden" name="session_id" value="', $user['session_id'], '" />
 		</form>';
 }
