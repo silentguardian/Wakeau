@@ -543,5 +543,7 @@ function ob_exit()
 	$_SESSION['old_action'] = $core['current_module'];
 	$_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
 
+	db_exit();
+
 	exit();
 }

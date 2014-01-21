@@ -15,63 +15,63 @@ if (!defined('CORE'))
 
 function db_initiate()
 {
-	global $db;
+	global $db, $database;
 
-	$connection = @mysql_connect($db['server'], $db['user'], $db['password']);
+	$database = new mysqli($db['server'], $db['user'], $db['password'], $db['name']);
 
-	if (!$connection)
+	if ($database->connect_errno)
 		fatal_error('Could not connect to database.');
-
-	$select = @mysql_select_db($db['name'], $connection);
-
-	if (!$select)
-		fatal_error('Could not select the database.');
-
-	$db['connection'] = $connection;
 
 	db_query("SET NAMES utf8");
 }
 
 function db_query($sql)
 {
-	global $db;
+	global $db, $database;
 
 	$db['debug'][] = $sql;
 
-	$result = @mysql_query($sql, $db['connection']);
+	$result = $database->query($sql);
 
 	if ($result === false)
-		fatal_error('Database error: [' . mysql_errno($db['connection']) . '] ' . mysql_error($db['connection']));
+		fatal_error('Database error: [' . $database->errno . '] ' . $database->error);
 
 	return $result;
 }
 
 function db_affected_rows()
 {
-	global $db;
+	global $database;
 
-	return mysql_affected_rows($db['connection']);
+	return $database->affected_rows;
 }
 
 function db_insert_id()
 {
-	global $db;
+	global $database;
 
-	return mysql_insert_id($db['connection']);
+	return $database->insert_id;
 }
 
 function db_fetch_row($resource)
 {
-	return $resource ? mysql_fetch_row($resource) : false;
+	return $resource ? $resource->fetch_row() : false;
 }
 
 function db_fetch_assoc($resource)
 {
-	return $resource ? mysql_fetch_assoc($resource) : false;
+	return $resource ? $resource->fetch_assoc() : false;
 }
 
 function db_free_result($resource)
 {
 	if ($resource)
-		mysql_free_result($resource);
+		$resource->free;
+}
+
+function db_exit()
+{
+	global $database;
+
+	$database->close();
 }
