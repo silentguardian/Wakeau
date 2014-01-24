@@ -426,7 +426,7 @@ function browse_download()
 
 	header('Content-Description: File Transfer');
 	header('Content-Type: application/octet-stream');
-	header('Content-Disposition: attachment; filename=' . htmlspecialchars_decode($name, ENT_QUOTES));
+	header('Content-Disposition: attachment; filename="' . htmlspecialchars_decode($name, ENT_QUOTES) . '"');
 	header('Content-Transfer-Encoding: binary');
 	header('Expires: 0');
 	header('Cache-Control: must-revalidate');
