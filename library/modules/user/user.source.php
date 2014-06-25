@@ -71,6 +71,7 @@ function user_edit()
 			'password' => 'password',
 			'verify_password' => 'password',
 			'admin' => 'int',
+			'inactive' => 'int',
 		);
 
 		foreach ($fields as $field => $type)
@@ -161,13 +162,14 @@ function user_edit()
 			'username' => '',
 			'email_address' => '',
 			'admin' => 0,
+			'inactive' => 0,
 		);
 	}
 	else
 	{
 		$request = db_query("
 			SELECT
-				id_user, username, email_address, admin,
+				id_user, username, email_address, admin, inactive,
 				login_count, last_login, last_password_change
 			FROM user
 			WHERE id_user = $id_user
@@ -180,6 +182,7 @@ function user_edit()
 				'username' => $row['username'],
 				'email_address' => $row['email_address'],
 				'admin' => $row['admin'],
+				'inactive' => $row['inactive'],
 				'login_count' => $row['login_count'],
 				'last_login' => empty($row['last_login']) ? 'Never' : format_time($row['last_login'], 'long'),
 				'last_password_change' => empty($row['last_password_change']) ? 'Never' : format_time($row['last_password_change'], 'long'),

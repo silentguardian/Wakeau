@@ -105,6 +105,15 @@ function template_user_edit()
 							<option value="1"', ($template['user']['admin'] == 1 ? ' selected="selected"' : ''), '>Yes</option>
 						</select>
 					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="inactive">Inactive:</label>
+					<div class="controls">
+						<select id="inactive" name="inactive">
+							<option value="0"', ($template['user']['inactive'] == 0 ? ' selected="selected"' : ''), '>No</option>
+							<option value="1"', ($template['user']['inactive'] == 1 ? ' selected="selected"' : ''), '>Yes</option>
+						</select>
+					</div>
 				</div>';
 
 	if (!$template['user']['is_new'])

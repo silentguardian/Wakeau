@@ -29,12 +29,15 @@ function login_main()
 		$username = htmlspecialchars($username, ENT_QUOTES);
 
 		$request = db_query("
-			SELECT id_user, password
+			SELECT id_user, password, inactive
 			FROM user
 			WHERE username = '$username'
 			LIMIT 1");
-		list ($id, $real_password) = db_fetch_row($request);
+		list ($id, $real_password, $inactive) = db_fetch_row($request);
 		db_free_result($request);
+
+		if (!empty($inactive))
+			fatal_error('Invalid user!');
 
 		$hash = sha1($password);
 		if ($hash !== $real_password)

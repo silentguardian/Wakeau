@@ -156,13 +156,16 @@ function load_user()
 	if (!empty($user['id']))
 	{
 		$request = db_query("
-			SELECT id_user, username, password, admin
+			SELECT
+				id_user, username, password,
+				admin, inactive
 			FROM user
 			WHERE id_user = $user[id]
 			LIMIT 1");
 		while ($row = db_fetch_assoc($request))
 		{
 			$real_password = $row['password'];
+			$inactive = !empty($row['inactive']);
 
 			$temp = array(
 				'id' => (int) $row['id_user'],
@@ -174,7 +177,7 @@ function load_user()
 		}
 		db_free_result($request);
 
-		if (empty($temp) || strlen($pass) != 40 || $pass !== $real_password)
+		if (empty($temp) || strlen($pass) != 40 || $pass !== $real_password || $inactive)
 			$user['id'] = 0;
 	}
 
