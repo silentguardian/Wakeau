@@ -172,6 +172,7 @@ function load_user()
 				'username' => $row['username'],
 				'admin' => !empty($row['admin']),
 				'logged' => true,
+				'ip' => guess_ip(),
 				'session_id' => $core['session_id'],
 			);
 		}
@@ -188,6 +189,7 @@ function load_user()
 			'username' => '',
 			'admin' => false,
 			'logged' => false,
+			'ip' => guess_ip(),
 			'session_id' => $core['session_id'],
 		);
 	}
@@ -213,6 +215,20 @@ function load_user()
 
 		$_SESSION['log_online'] = time();
 	}
+}
+
+function check_session($action = '')
+{
+	global $core;
+
+	if (empty($_POST['session_id']) || $_POST['session_id'] != $core['session_id'])
+		fatal_error('Session timed out!');
+
+	if ((!isset($_SESSION['user_agent']) || $_SESSION['user_agent'] != $_SERVER['HTTP_USER_AGENT']))
+		fatal_error('Session could not be verified!');
+
+	if (!isset($_SESSION['old_action']) || $_SESSION['old_action'] != $action)
+		fatal_error('Session URL could not be verified!');
 }
 
 function start_session()
@@ -255,18 +271,16 @@ function create_cookie($length, $user, $pass = '')
 	}
 }
 
-function check_session($action = '')
+function guess_ip()
 {
-	global $core;
-
-	if (empty($_POST['session_id']) || $_POST['session_id'] != $core['session_id'])
-		fatal_error('Session timed out!');
-
-	if ((!isset($_SESSION['user_agent']) || $_SESSION['user_agent'] != $_SERVER['HTTP_USER_AGENT']))
-		fatal_error('Session could not be verified!');
-
-	if (!isset($_SESSION['old_action']) || $_SESSION['old_action'] != $action)
-		fatal_error('Session URL could not be verified!');
+	if (!empty($_SERVER['HTTP_CLIENT_IP']) && preg_match('~\b(?:\d{1,3}\.){3}\d{1,3}\b~', $_SERVER['HTTP_CLIENT_IP'], $match))
+		return $match[0];
+	elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']) && preg_match('~\b(?:\d{1,3}\.){3}\d{1,3}\b~', $_SERVER['HTTP_X_FORWARDED_FOR'], $match))
+		return $match[0];
+	elseif (!empty($_SERVER['REMOTE_ADDR']) && preg_match('~\b(?:\d{1,3}\.){3}\d{1,3}\b~', $_SERVER['REMOTE_ADDR'], $match))
+		return $match[0];
+	else
+		return 'unknown';
 }
 
 function clean_request()

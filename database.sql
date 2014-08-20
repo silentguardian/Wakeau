@@ -88,6 +88,21 @@ CREATE TABLE IF NOT EXISTS `file` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `log`
+--
+
+CREATE TABLE IF NOT EXISTS `log` (
+  `id_log` mediumint(8) NOT NULL AUTO_INCREMENT,
+  `id_file` mediumint(8) NOT NULL DEFAULT '0',
+  `id_user` mediumint(8) NOT NULL DEFAULT '0',
+  `ip` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `time` int(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id_log`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `online`
 --
 

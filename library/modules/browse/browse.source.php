@@ -17,7 +17,7 @@ function browse_main()
 {
 	global $core;
 
-	$actions = array('category', 'subcategory', 'file', 'type', 'user', 'view', 'comment', 'download', 'edit', 'delete');
+	$actions = array('category', 'subcategory', 'file', 'type', 'user', 'view', 'comment', 'download', 'edit', 'log', 'delete');
 
 	$core['current_action'] = 'category';
 	if (!empty($_REQUEST['action']) && in_array($_REQUEST['action'], $actions))
@@ -328,6 +328,7 @@ function browse_view()
 	db_free_result($request);
 
 	$template['can_manage'] = $user['admin'] || ($user['id'] == $template['file']['user']['id']);
+	$template['can_admin'] = $user['admin'];
 	$template['can_comment'] = true;
 	$template['page_title'] = 'View File - ' . $template['file']['name'];
 	$core['current_template'] = 'browse_view';
@@ -399,7 +400,7 @@ function browse_comment()
 
 function browse_download()
 {
-	global $core;
+	global $core, $user;
 
 	$id_file = !empty($_REQUEST['browse']) ? (int) $_REQUEST['browse'] : 0;
 
@@ -423,6 +424,12 @@ function browse_download()
 		SET downloads = downloads + 1
 		WHERE id_file = $id_file
 		LIMIT 1");
+
+	db_query("
+		INSERT INTO log
+			(id_file, id_user, ip, time)
+		VALUES
+			($id_file, $user[id], '$user[ip]', " . time() . ")");
 
 	header('Content-Description: File Transfer');
 	header('Content-Type: application/octet-stream');
@@ -604,6 +611,57 @@ function browse_edit()
 
 	$template['page_title'] = 'Edit File';
 	$core['current_template'] = 'browse_edit';
+}
+
+function browse_log()
+{
+	global $core, $template, $user;
+
+	$id_file = !empty($_REQUEST['browse']) ? (int) $_REQUEST['browse'] : 0;
+
+	$request = db_query("
+		SELECT id_file, name
+		FROM file
+		WHERE id_file = $id_file
+		LIMIT 1");
+	while ($row = db_fetch_assoc($request))
+	{
+		$template['file'] = array(
+			'id' => $row['id_file'],
+			'name' => $row['name'],
+		);
+	}
+	db_free_result($request);
+
+	if (!isset($template['file']))
+		fatal_error('The file requested does not exist!');
+	elseif (!$user['admin'])
+		fatal_error('You are not allowed to carry out this action!');
+
+	$request = db_query("
+		SELECT
+			l.id_log, l.id_user, u.username, l.ip, l.time
+		FROM log AS l
+			LEFT JOIN user AS u ON (u.id_user = l.id_user)
+		WHERE l.id_file = $id_file
+		ORDER BY l.id_log DESC");
+	$template['logs'] = array();
+	while ($row = db_fetch_assoc($request))
+	{
+		$template['logs'][] = array(
+			'id' => $row['id_log'],
+			'user' => array(
+				'id' => $row['id_user'],
+				'name' => $row['username'],
+			),
+			'ip' => $row['ip'],
+			'time' => format_time($row['time']),
+		);
+	}
+	db_free_result($request);
+
+	$template['page_title'] = 'Download Log - ' . $template['file']['name'];
+	$core['current_template'] = 'browse_log';
 }
 
 function browse_delete()

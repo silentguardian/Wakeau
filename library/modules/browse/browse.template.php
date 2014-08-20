@@ -282,6 +282,12 @@ function template_browse_view()
 				<a class="btn" href="', build_url(array('browse', 'file', $template['file']['subcategory']['id'])), '">Back</a>
 				<a class="btn btn-success" href="', build_url(array('browse', 'download', $template['file']['id'])), '">Download</a>';
 
+	if ($template['can_admin'])
+	{
+		echo '
+				<a class="btn btn-info" href="', build_url(array('browse', 'log', $template['file']['id'])), '">Log</a>';
+	}
+
 	if ($template['can_manage'])
 	{
 		echo '
@@ -492,6 +498,50 @@ function template_browse_edit()
 					subcategory_select.options[subcategory_select.length] = new Option(subcategories[value][key][1], subcategories[value][key][0]);
 			}
 		// ]]></script>';
+}
+
+function template_browse_log()
+{
+	global $template;
+
+	echo '
+		<div class="page-header">
+			<div class="pull-right">
+				<a class="btn" href="', build_url(array('browse', 'view', $template['file']['id'])), '">Back</a>
+			</div>
+			<h2>Download Log - ', $template['file']['name'], '</h2>
+		</div>
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>User</th>
+					<th>IP Address</th>
+					<th>Time</th>
+				</tr>
+			</thead>
+			<tbody>';
+
+	if (empty($template['logs']))
+	{
+		echo '
+				<tr>
+					<td class="align_center" colspan="3">There are not anything logged yet!</td>
+				</tr>';
+	}
+
+	foreach ($template['logs'] as $log)
+	{
+		echo '
+				<tr>
+					<td>', $log['user']['name'], '</td>
+					<td class="span4 align_center">', $log['ip'], '</td>
+					<td class="span4 align_center">', $log['time'], '</td>
+				</tr>';
+	}
+
+	echo '
+			</tbody>
+		</table>';
 }
 
 function template_browse_delete()
