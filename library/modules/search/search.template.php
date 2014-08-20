@@ -37,10 +37,13 @@ function template_search_form()
 		echo '
 							<optgroup label="', $category_name, '">';
 
-		foreach ($template['subcategories'][$category_id] as $subcategory_id => $subcategory_name)
+		if (!empty($template['subcategories'][$category_id]))
 		{
-			echo '
+			foreach ($template['subcategories'][$category_id] as $subcategory_id => $subcategory_name)
+			{
+				echo '
 								<option value="', $subcategory_id, '">', $subcategory_name, '</option>';
+			}
 		}
 
 		echo '
