@@ -30,7 +30,7 @@ load_template();
 
 $modules = array('home', 'about');
 if ($user['logged'])
-	$modules = array_merge($modules, array('logout', 'profile', 'browse', 'upload'));
+	$modules = array_merge($modules, array('logout', 'profile', 'browse', 'upload', 'search'));
 else
 	$modules = array_merge($modules, array('login', 'register'));
 if ($user['admin'])

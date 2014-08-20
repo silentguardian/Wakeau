@@ -385,6 +385,7 @@ function template_menu()
 		'about' => 'About',
 		'browse' => 'Browse',
 		'upload' => 'Upload',
+		'search' => 'Search',
 		'profile' => 'Profile',
 		'logout' => 'Logout',
 		'',
