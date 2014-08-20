@@ -65,7 +65,7 @@ function home_main()
 	db_free_result($request);
 
 	$request = db_query("
-		SELECT COUNT(f.id_file) AS files, t.name
+		SELECT f.id_type, COUNT(f.id_file) AS files, t.name
 		FROM file AS f
 			INNER JOIN type AS t ON (t.id_type = f.id_type)
 		GROUP BY f.id_type
@@ -76,13 +76,14 @@ function home_main()
 	{
 		$template['popular_types'][] = array(
 			'name' => $row['name'],
+			'href' => build_url(array('browse', 'type', $row['id_type'])),
 			'files' => $row['files'],
 		);
 	}
 	db_free_result($request);
 
 	$request = db_query("
-		SELECT COUNT(f.id_file) AS files, u.username
+		SELECT f.id_user, COUNT(f.id_file) AS files, u.username
 		FROM file AS f
 			INNER JOIN user AS u ON (u.id_user = f.id_user)
 		GROUP BY f.id_user
@@ -93,6 +94,7 @@ function home_main()
 	{
 		$template['generous_users'][] = array(
 			'username' => $row['username'],
+			'href' => build_url(array('browse', 'user', $row['id_user'])),
 			'files' => $row['files'],
 		);
 	}

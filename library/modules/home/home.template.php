@@ -118,7 +118,7 @@ function template_home_main()
 	{
 		echo '
 					<tr>
-						<td>', $type['name'], '</td>
+						<td><a href="', $type['href'], '">', $type['name'], '</a></td>
 						<td class="align_center">', $type['files'], '</td>
 					</tr>';
 	}
@@ -152,7 +152,7 @@ function template_home_main()
 	{
 		echo '
 					<tr>
-						<td>', $user['username'], '</td>
+						<td><a href="', $user['href'], '">', $user['username'], '</a></td>
 						<td class="align_center">', $user['files'], '</td>
 					</tr>';
 	}
@@ -187,7 +187,7 @@ function template_home_main()
 	{
 		echo '
 					<tr>
-						<td>', $category['name'], '</td>
+						<td><a href="', $category['href'], '">', $category['name'], '</a></td>
 						<td class="align_center">', $category['files'], '</td>
 					</tr>';
 	}
@@ -221,7 +221,7 @@ function template_home_main()
 	{
 		echo '
 					<tr>
-						<td>', $subcategory['name'], '</td>
+						<td><a href="', $subcategory['href'], '">', $subcategory['name'], '</a></td>
 						<td class="align_center">', $subcategory['files'], '</td>
 					</tr>';
 	}
